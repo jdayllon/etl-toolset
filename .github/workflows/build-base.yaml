@@ -1,0 +1,44 @@
+name: etl-toolset
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.dockerfile'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Config Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login al GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}       
+      - id: meta
+        name: Docker meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/etl-toolset
+          tags: |
+            type=ref,event=branch
+            type=sha          
+            type=raw,value=latest
+            
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker-base-msvc/base-msvc.Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/arm64/v8
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
