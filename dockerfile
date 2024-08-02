@@ -31,17 +31,15 @@ RUN go install github.com/seaweedfs/seaweedfs/weed@latest
 # Install duckdb and  Benthos / Redpanda Connect
 # Selects correct DuckDB version based on the architecture and version
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-        export DUCKDB_URL="https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-amd64.zip"; \
-        export BENTHOS_URL="https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip "; \
+        curl -L "https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-amd64.zip" -o duckdb_cli.zip; \
+        curl -L "https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip " -o rpk-linux-download.zip; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-        export DUCKDB_URL="https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-aarch64.zip"; \
-        export BENTHOS_URL="https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-arm64.zip "; \
+        curl -L "https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-aarch64.zip" -o duckdb_cli.zip; \
+        curl -L "https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-arm64.zip " -o rpk-linux-download.zip; \
     else \
         echo "Not supported architecture: $TARGETARCH"; \
         exit 1; \
-    fi; \
-    curl -L "$DUCKDB_URL" -o duckdb_cli.zip; \
-    curl -L "$BENTHOS_URL" -o rpk-linux-download.zip
+    fi
 
 RUN unzip duckdb_cli.zip -d /usr/local/bin
 RUN unzip rpk-linux-download.zip -d ~/.local/bin/
