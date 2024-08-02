@@ -5,7 +5,7 @@ ARG PB_VERSION=0.22.18
 ARG DUCKDB_VERSION=1.0.0
 
 # Add GO
-RUN apk add --no-cache git make musl-dev go
+RUN apk add --no-cache git make musl-dev go curl unzip
 
 # Configure Go
 ENV GOROOT /usr/lib/go
