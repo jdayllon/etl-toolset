@@ -33,15 +33,15 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         export DUCKDB_URL="https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-aarch64.zip"; \
         export BENTHOS_URL="https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-arm64.zip "; \
     else \
-        echo "Arquitectura no soportada: $TARGETARCH"; \
+        echo "Not supported architecture: $TARGETARCH"; \
         exit 1; \
-    fi && \
-    echo "Descargando desde $DUCKDB_URL" && \
-    curl -L $DUCKDB_URL -o duckdb_cli.zip && \
-    curl -L $BENTHOS_URL -o rpk-linux-download.zip && \
-    unzip duckdb_cli.zip -d /usr/local/bin && \
-    unzip rpk-linux-download.zip -d ~/.local/bin/ && \
-    rm duckdb_cli.zip rpk-linux-download.zip
+    fi
+
+RUN echo "Downloading : $DUCKDB_URL" && curl -L $DUCKDB_URL -o duckdb_cli.zip
+RUN echo "Downloading : $BENTHOS_URL" && curl -L $BENTHOS_URL -o rpk-linux-download.zip
+RUN unzip duckdb_cli.zip -d /usr/local/bin
+RUN unzip rpk-linux-download.zip -d ~/.local/bin/
+RUN rm duckdb_cli.zip rpk-linux-download.zip
 
 EXPOSE 8080
 # start PocketBase
