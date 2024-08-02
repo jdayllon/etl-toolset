@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.20
 # Arguments
 ARG TARGETARCH
 ARG PB_VERSION=0.22.18
