@@ -44,7 +44,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 
 RUN unzip duckdb_cli.zip -d /usr/local/bin
-RUN unzip rpk-linux-download.zip -d ~/.local/bin/
+RUN unzip rpk-linux-download.zip -d /usr/local/bin
 RUN rm duckdb_cli.zip rpk-linux-download.zip
 
 EXPOSE 8080
