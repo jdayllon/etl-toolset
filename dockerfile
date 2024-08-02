@@ -12,6 +12,10 @@ ENV GOROOT /usr/lib/go
 ENV GOPATH /go
 ENV PATH /go/bin:$PATH
 
+# Variables ENV
+ENV DUCKDB_URL=""
+ENV BENTHOS_URL=""
+
 RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
 
 # sq.io
