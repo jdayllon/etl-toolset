@@ -39,10 +39,10 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     else \
         echo "Not supported architecture: $TARGETARCH"; \
         exit 1; \
-    fi
+    fi; \
+    curl -L "$DUCKDB_URL" -o duckdb_cli.zip; \
+    curl -L "$BENTHOS_URL" -o rpk-linux-download.zip
 
-RUN curl -L $DUCKDB_URL -o duckdb_cli.zip
-RUN curl -L $BENTHOS_URL -o rpk-linux-download.zip
 RUN unzip duckdb_cli.zip -d /usr/local/bin
 RUN unzip rpk-linux-download.zip -d ~/.local/bin/
 RUN rm duckdb_cli.zip rpk-linux-download.zip
