@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'dockerfile'
+      - '.github/workflows/build-base.yaml'
 
 jobs:
   build:
@@ -33,12 +34,12 @@ jobs:
             type=raw,value=latest
             
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker-base-msvc/base-msvc.Dockerfile
+          file: ./dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          platforms: linux/arm64/v8
+          platforms: linux/amd64,linux/arm64
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
