@@ -1,14 +1,21 @@
-FROM docker.redpanda.com/redpandadata/connect
+FROM alpine:3.14
 # Arguments
 ARG TARGETARCH
 ARG PB_VERSION=0.22.18
 ARG DUCKDB_VERSION=1.0.0
 
-# Adding extra tools
+# Add GO
+RUN apk add --no-cache git make musl-dev go
+
+# Configure Go
+ENV GOROOT /usr/lib/go
+ENV GOPATH /go
+ENV PATH /go/bin:$PATH
+
+RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
 
 # sq.io
 RUN /bin/sh -c "$(curl -fsSL https://sq.io/install.sh)"
-
 
 # download and unzip PocketBase
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
