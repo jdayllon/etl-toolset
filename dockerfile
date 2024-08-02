@@ -37,8 +37,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
         exit 1; \
     fi
 
-RUN echo "Downloading : $DUCKDB_URL" && curl -L $DUCKDB_URL -o duckdb_cli.zip
-RUN echo "Downloading : $BENTHOS_URL" && curl -L $BENTHOS_URL -o rpk-linux-download.zip
+RUN curl -L $DUCKDB_URL -o duckdb_cli.zip
+RUN curl -L $BENTHOS_URL -o rpk-linux-download.zip
 RUN unzip duckdb_cli.zip -d /usr/local/bin
 RUN unzip rpk-linux-download.zip -d ~/.local/bin/
 RUN rm duckdb_cli.zip rpk-linux-download.zip
