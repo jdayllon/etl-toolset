@@ -1,0 +1,23 @@
+# Config fields, showing default values
+input:
+  label: ""
+  generate:
+    mapping: root = "hello world" # No default (required)
+    interval: 1s
+    count: 0
+    batch_size: 1
+    auto_replay_nacks: true
+pipeline:
+  processors:
+  - bloblang: |
+      root = this
+      root.ulid = ulid()
+output:
+  label: ""
+  http_server:
+    address: ""
+    path: /get
+    stream_path: /get/stream
+    ws_path: /get/ws
+    allowed_verbs:
+      - GET
