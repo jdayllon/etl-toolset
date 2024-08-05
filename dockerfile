@@ -46,7 +46,14 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 RUN unzip duckdb_cli.zip -d /usr/local/bin
 RUN unzip rpk-linux-download.zip -d /usr/local/bin
 RUN rm duckdb_cli.zip rpk-linux-download.zip
+RUN rpk --version
 
-EXPOSE 8080
-# start PocketBase
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+# Load configuration files
+COPY ./supervisor.conf /etc/supervisor.conf
+# Copy streams folder
+COPY ./streams /streams
+
+
+EXPOSE 8080 4195
+# start supervisor
+CMD [ "supervisord", "-c", "/etc/supervisor.conf" ]
