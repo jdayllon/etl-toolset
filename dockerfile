@@ -54,6 +54,6 @@ COPY ./supervisor.conf /etc/supervisor.conf
 COPY ./streams /streams
 
 
-EXPOSE 8080 4195
+EXPOSE 8000 8080 4195
 # start supervisor
 CMD [ "supervisord", "-c", "/etc/supervisor.conf" ]

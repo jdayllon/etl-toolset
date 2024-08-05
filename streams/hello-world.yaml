@@ -15,7 +15,7 @@ pipeline:
 output:
   label: ""
   http_server:
-    address: ""
+    address: "0.0.0.0:8000"
     path: /get
     stream_path: /get/stream
     ws_path: /get/ws
